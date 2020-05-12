@@ -5,6 +5,9 @@ const imageMetadataSchema = new mongoose.Schema(
     name: {
       type: String,
     },
+    filename: {
+      type: String,
+    },
   },
   { collection: "imageMetadata" }
 );
