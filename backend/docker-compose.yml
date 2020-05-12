@@ -1,8 +1,8 @@
 version: "3.3"
 
 services:
-  backend:
-    container_name: backend
+  image-app:
+    container_name: image-app
     restart: always
     build: ./
     volumes:
