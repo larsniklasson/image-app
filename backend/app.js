@@ -4,6 +4,9 @@ const imageRouter = require("./routes/imageRoutes");
 // Create app
 const app = express();
 
+// Body parser - middleware that modifies incoming request data into json
+app.use(express.json({ limit: "10kb" }));
+
 // Routes
 app.use("/images", imageRouter);
 
