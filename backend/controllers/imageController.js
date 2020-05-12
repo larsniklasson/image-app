@@ -1,4 +1,19 @@
+const multer = require("multer");
 const ImageMetadata = require("../models/ImageMetadataModel");
+
+const multerStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/img");
+  },
+  filename: (req, file, cb) => {
+    const extension = file.mimetype.split("/")[1];
+    cb(null, `${req.body.name}.${extension}`);
+  },
+});
+
+const upload = multer({
+  storage: multerStorage,
+});
 
 exports.getAllImages = async (req, res, next) => {
   return res.status(200).json({
@@ -9,7 +24,9 @@ exports.getAllImages = async (req, res, next) => {
   });
 };
 
-exports.uploadImage = async (req, res, next) => {
+exports.uploadImage = upload.single("photo");
+
+exports.createImageMetadata = async (req, res, next) => {
   const doc = await ImageMetadata.create(req.body);
 
   if (!doc) {
