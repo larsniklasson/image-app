@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "start-mongo": "docker run --name mongodb -d -p 27017:27017 --rm -it mongo:4.0.4 mongod",
-    "stop-mongo": "docker rm -f mongodb"
+    "start": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
