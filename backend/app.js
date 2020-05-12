@@ -10,6 +10,9 @@ app.use(express.json({ limit: "10kb" }));
 // Routes
 app.use("/images", imageRouter);
 
+// Serving static files
+app.use(express.static("public"));
+
 // Catching uncaught routes
 app.all("*", (req, res, next) => {
   return res.status(404).json({
