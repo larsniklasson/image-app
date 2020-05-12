@@ -18,11 +18,11 @@ const upload = multer({
 });
 
 exports.getAllImages = async (req, res, next) => {
+  const data = await ImageMetadata.find();
+
   return res.status(200).json({
     status: "success",
-    data: {
-      data: "getAllImages",
-    },
+    data: data,
   });
 };
 
@@ -31,7 +31,7 @@ exports.uploadImage = upload.single("photo");
 exports.createImageMetadata = async (req, res, next) => {
   const doc = await ImageMetadata.create({
     name: req.body.name,
-    filename: req.file.filename,
+    path: `/img/${req.file.filename}`,
   });
 
   if (!doc) {

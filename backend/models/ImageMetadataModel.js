@@ -5,7 +5,7 @@ const imageMetadataSchema = new mongoose.Schema(
     name: {
       type: String,
     },
-    filename: {
+    path: {
       type: String,
     },
   },
