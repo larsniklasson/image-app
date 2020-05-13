@@ -12,7 +12,7 @@ function App() {
           src={`${API_ROOT_URL}/img/example.jpeg`}
           className="App-image"
         />
-        <p>Image Uploading App</p>
+        <h1>Image Uploading App</h1>
         <p>{`Access the API on ${API_ROOT_URL}`}</p>
       </header>
     </div>
