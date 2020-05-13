@@ -15,13 +15,16 @@ To run the app, you will need to install:
 ## Backend
 
 Start the backend by starting the Docker daemon and then running
-`docker-compose up -d --build`
+`docker-compose up --build`
 
 The API is now available on `http://localhost:3002`
 
 Any changes to the backend code should hot reloaded and you do not have to rebuild the backend between changes.
 
-Stop the backend by running
+You can run the process in the background using
+`docker-compose up -d --build`
+
+In this case you stop the process by running
 `docker-compose stop`
 
 If you want to see the data in the database directly, you can use [MongoDB Compass](https://www.mongodb.com/products/compass) and connect to the database on `localhost:27017`.
