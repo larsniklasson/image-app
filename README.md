@@ -62,6 +62,12 @@ Returns the uploaded image metadata:
 }
 ```
 
+Example using cURL:
+
+```
+curl -X POST 'localhost:3002/images' -F 'name=Example' -F 'photo=@/path/to/example.jpg'
+```
+
 #### `GET /img/filename.jpg`
 
 Uploaded files are served as static files from the `/img` directory
