@@ -72,6 +72,32 @@ curl -X POST 'localhost:3002/images' -F 'name=Example' -F 'photo=@/path/to/examp
 
 Uploaded files are served as static files from the `/img` directory
 
+### Tests
+
+There is a set of integration tests for the API that runs against a local test database.
+
+To run the tests:
+
+1. Make sure the Docker Daemon is running
+
+2. Start the test database (in a docker container)
+
+```
+npm run start:test-db
+```
+
+3. Run the integration tests
+
+```
+npm run test:integration
+```
+
+4. Stop the test database (by removing the container)
+
+```
+npm run stop:test-db
+```
+
 ## Frontend
 
 The frontend is a react app. Currently the app is just created and have basically no functionality.
@@ -91,3 +117,5 @@ The app is now available on `http://localhost:3000`
 - [React](https://reactjs.org/tutorial/tutorial.html)
 - [Multer](https://github.com/expressjs/multer)
 - [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData/FormData)
+- [Jest](https://jestjs.io/)
+- [Supertest](https://www.npmjs.com/package/supertest)
