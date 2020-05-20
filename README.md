@@ -8,7 +8,9 @@ All parts of the callenge are somewhat open-ended and you are free to make assum
 When we meet, we will go through it all and you will have time to explain you decisions.
 We are very interested in hearing your thought process, so remember to document what you are doing.
 
-Please submit part 1 and 2 ahead of the interview by making a pull request to this repository and part 3 by sending us an email.
+Please submit part 1 and 2 ahead of the interview by forking this repo and making a pull request with your changes.
+If you do not want to create a public pull request you can clone the repository, upload it to a private repo and invite us to it.
+Part 3 can be sent via email.
 
 If you have any questions, just send us an email!
 
