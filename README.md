@@ -14,7 +14,7 @@ If you have any questions, just send us an email!
 
 _Good luck!_
 
-![](https://gfycat.com/unkemptspecificafricanporcupine)
+![](https://media.giphy.com/media/a90M32EUW1u80/giphy.gif)
 
 # Challenge
 
