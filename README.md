@@ -1,3 +1,46 @@
+# Instructions
+
+Welcome to Knodd's programming challenge!
+
+Your task is split in three parts: an implementation from scratch, an improvement to existing code, and finally a high-level software design.
+
+All parts of the callenge are somewhat open-ended and you are free to make assumuptions, improvements and trade-offs as you see fit.
+When we meet, we will go through it all and you will have time to explain you decisions.
+We are very interested in hearing your thought process, so remember to document what you are doing.
+
+Please submit part 1 and 2 ahead of the interview by making a pull request to this repository and part 3 by sending us an email.
+
+If you have any questions, just send us an email!
+
+_Good luck!_
+
+![](https://gfycat.com/unkemptspecificafricanporcupine)
+
+# Challenge
+
+### 1. Write a React client for an image uploading API
+
+This repository contains a backend directory with and image uploading API a frontend directory with a React app. The React app is just a `create-react-app` project and has no implemented functionality.
+
+We would like you to implement functionality so that the user can select an image from their local storage, type a name for it, and have your app uploading it to the server using the API.
+
+### 2. Improve the API
+
+The backend directory contains an image uploading API written in Node/Express. Currently it lacks som basic functionality and validation. We would like you to improve the API so that:
+
+- it only accepts JPEG and PNG files
+- The images are automatically resized squares of size 400x400
+- The filename for the stored image is the 10 first letters of the provided name, no åäö, spaces replaced with dashes and ended with the timestamp for the time uploading.
+  - I.e. "Min blå cykel" should be saved as `min-bla-cy_20200513124514.png`
+
+### 3. Design an image upload and resizing service that works at scale
+
+Imagine that we are constructing a system that lets millions of users upload images of all sizes and formats, and that these images will be resized to three standard resolutions and made available to the world. The system needs to respond quickly to the uploading user, notify the user of when resizes are complete and finally serve the images to users around the world with the lowest possible latency. Ideally we'd like to keep costs down as well.
+
+Make a proposal for the high-level design of such a system? What components would you choose? What trade-offs would you need to make?
+
+For this task you are free to present your solution in any way you wish: on paper, in a digital document or drawn on a whiteboard. We will discuss it when we meet.
+
 # Image Uploading App
 
 This repository contains an image uploading app.

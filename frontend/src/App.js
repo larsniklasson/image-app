@@ -3,6 +3,7 @@ import "./App.css";
 
 const API_ROOT_URL = process.env.API_ROOT_URL || "http://localhost:3002";
 
+// Everything in this file is just placeholder code and can be removed
 function App() {
   return (
     <div className="App">
