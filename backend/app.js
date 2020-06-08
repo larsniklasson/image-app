@@ -4,6 +4,12 @@ const imageRouter = require("./routes/imageRoutes");
 // Create app
 const app = express();
 
+// Enable CORS for frontend
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  next();
+});
+
 // Body parser - middleware that modifies incoming request data into json
 app.use(express.json({ limit: "10kb" }));
 
