@@ -4,7 +4,7 @@ Welcome to Knodd's programming challenge!
 
 Your task is split in three parts: an implementation from scratch, an improvement to existing code, and finally a high-level software design.
 
-All parts of the challenge are somewhat open-ended and you are free to make assumuptions, improvements and trade-offs as you see fit.
+All parts of the challenge are somewhat open-ended and you are free to make assumptions, improvements and trade-offs as you see fit.
 When we meet, we will go through it all and you will have time to explain your decisions.
 We are very interested in hearing your thought process, so remember to document what you are doing.
 
