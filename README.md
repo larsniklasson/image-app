@@ -61,7 +61,7 @@ To run the app, you will need to install:
 
 ## Backend
 
-Start the backend by starting the Docker daemon and then running
+Start the backend by starting the Docker daemon, moving into the backend directiory and then running
 `docker-compose up --build`
 
 The API is now available on `http://localhost:3002`
@@ -147,7 +147,8 @@ npm run stop:test-db
 
 ## Frontend
 
-The frontend is a React app. Currently the app is just created and have basically no functionality.
+The frontend is a React app. Currently the app is just created and has no implemented functionality.
+Run commands the following commands in the frontend directory.
 
 Install Dependecies
 `npm install`
