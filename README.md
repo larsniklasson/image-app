@@ -61,20 +61,37 @@ To run the app, you will need to install:
 
 ## Backend
 
-Start the backend by starting the Docker daemon, moving into the backend directiory and then running
-`docker-compose up --build`
+Start the backend by starting the Docker daemon, moving into the backend directiory.
+
+1. Start the database (in a docker container)
+
+```
+npm run start:db
+```
+
+2. Install dependencies
+
+```
+npm install
+```
+
+3. Start the backend
+
+```
+npm start
+```
 
 The API is now available on `http://localhost:3002`
 
 Any changes to the backend code should hot reload and you do not have to rebuild the backend between changes.
 
-You can run the process in the background using
-`docker-compose up -d --build`
-
-In this case you stop the process by running
-`docker-compose stop`
-
 If you want to see the data in the database directly, you can use [MongoDB Compass](https://www.mongodb.com/products/compass) and connect to the database on `localhost:27017`.
+
+4. Stop and reset the database (by removing the container)
+
+```
+npm run stop:db
+```
 
 ### API
 
@@ -130,7 +147,7 @@ To run the tests:
 2. Start the test database (in a docker container)
 
 ```
-npm run start:test-db
+npm run start:db
 ```
 
 3. Run the integration tests
@@ -142,7 +159,7 @@ npm run test:integration
 4. Stop the test database (by removing the container)
 
 ```
-npm run stop:test-db
+npm run stop:db
 ```
 
 ## Frontend

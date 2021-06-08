@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const app = require("./app");
 
-const DB_URL = process.env.DB_HOST;
+const DB_URL = process.env.DB_HOST || "mongodb://127.0.0.1/image-app-db";
 const PORT = process.env.PORT || 3002;
 
 // Setup db connection
