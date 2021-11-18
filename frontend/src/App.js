@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 
-const API_ROOT_URL = process.env.API_ROOT_URL || "http://localhost:3002";
+// const API_ROOT_URL = process.env.API_ROOT_URL || "http://localhost:3002";
 
 function App() {
   return (
