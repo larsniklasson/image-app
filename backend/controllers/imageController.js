@@ -7,13 +7,27 @@ const IMG_DIRECTORY_PATH = "public/img";
 const RESIZE_WIDTH = 400;
 const RESIZE_HEIGHT = 400;
 
+const generateFileName = (name, extension) => {
+  name = name.substring(0, 10);
+  name = name.toLowerCase();
+  name = name
+    .replace(/å/g, "a")
+    .replace(/ä/g, "a")
+    .replace(/ö/g, "o")
+    .replace(/ /g, "-");
+
+  timestamp = new Date().getTime();
+
+  return `${name}_${timestamp}.${extension}`;
+};
+
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, IMG_DIRECTORY_PATH);
   },
   filename: (req, file, cb) => {
     const extension = file.mimetype.split("/")[1];
-    cb(null, `${req.body.name}.${extension}`);
+    cb(null, generateFileName(req.body.name, extension));
   },
 });
 

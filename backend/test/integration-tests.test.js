@@ -8,8 +8,8 @@ const dropAllCollections = require("./utils/dropAllCollections");
 
 const request = supertest(app);
 
-const testImageName = "TestName";
-const expectedFilePath = "/img/TestName.jpeg";
+const testImageName = "Min blåöä cykel";
+const expectedFilePathPrefix = "/img/min-blaoa-";
 
 const jpgPath = "test/utils/test.jpg";
 const jpegPath = "test/utils/test.jpeg";
@@ -41,15 +41,25 @@ test("Return 404 for invalid endpoint", async (done) => {
 
 test("POST /images - upload image", async (done) => {
   const response = await postImagePromise(jpegPath);
-
-  const fileExists = checkPublicFileExists(expectedFilePath);
-
-  removePublicFile(expectedFilePath);
-
   expect(response.status).toBe(201);
   expect(response.body.data.data.name).toBe(testImageName);
-  expect(response.body.data.data.path).toBe(expectedFilePath);
+
+  const filePath = response.body.data.data.path;
+
+  const fileExists = checkPublicFileExists(filePath);
   expect(fileExists).toBe(true);
+  removePublicFile(filePath);
+
+  // Check that filename is generated correctly
+  const [filePathNoExtension, extension] = filePath.split(".");
+  const [filePathPrefix, timestamp] = filePathNoExtension.split("_");
+
+  expect(extension).toBe("jpeg");
+  expect(filePathPrefix).toBe(expectedFilePathPrefix);
+
+  const timestampNumber = parseInt(timestamp);
+  const date = new Date(timestampNumber);
+  expect(date.getTime()).toBe(timestampNumber);
 
   done();
 });
@@ -60,7 +70,9 @@ test("GET /images - returns array of metadata for uploaded images", async (done)
   expect(response.status).toBe(200);
   expect(response.body.data.length).toBe(1);
   expect(response.body.data[0].name).toBe(testImageName);
-  expect(response.body.data[0].path).toBe(expectedFilePath);
+
+  filePathPrefix = response.body.data[0].path.split("_")[0];
+  expect(filePathPrefix).toBe(expectedFilePathPrefix);
 
   done();
 });
@@ -85,7 +97,7 @@ const postImagePromise = (filePath) => {
     .attach("photo", filePath);
 };
 
-test("POST /images - upload different file extensions", async (done) => {
+test("POST /images - test file extensions", async (done) => {
   let response = await postImagePromise(jpgPath);
   expect(response.status).toBe(201);
   removePublicFile(response.body.data.data.path);
@@ -109,10 +121,11 @@ test("POST /images - check image was resized", async (done) => {
   const EXPECTED_HEIGHT = 400;
 
   const response = await postImagePromise(jpegPath);
-  const dimensions = sizeOf(`public${expectedFilePath}`);
+  const filePath = response.body.data.data.path;
+  const dimensions = sizeOf(`public${filePath}`);
   expect(dimensions.width).toBe(EXPECTED_WIDTH);
   expect(dimensions.height).toBe(EXPECTED_HEIGHT);
-  removePublicFile(response.body.data.data.path);
+  removePublicFile(filePath);
 
   done();
 });
