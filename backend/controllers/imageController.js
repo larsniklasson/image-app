@@ -1,7 +1,11 @@
 const multer = require("multer");
+const sharp = require("sharp");
+const fs = require("fs");
 const ImageMetadata = require("../models/ImageMetadataModel");
 
 const IMG_DIRECTORY_PATH = "public/img";
+const RESIZE_WIDTH = 400;
+const RESIZE_HEIGHT = 400;
 
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -13,17 +17,17 @@ const multerStorage = multer.diskStorage({
   },
 });
 
-function multerFilter (req, file, cb) {
-  const acceptFile = ["image/jpeg", "image/png"].includes(file.mimetype)
-  if(!acceptFile){
+function multerFilter(req, file, cb) {
+  const acceptFile = ["image/jpeg", "image/png"].includes(file.mimetype);
+  if (!acceptFile) {
     req.filteredOut = true;
   }
-  cb(null, acceptFile)
+  cb(null, acceptFile);
 }
 
 const upload = multer({
   storage: multerStorage,
-  fileFilter: multerFilter
+  fileFilter: multerFilter,
 });
 
 exports.getAllImages = async (req, res, next) => {
@@ -37,10 +41,25 @@ exports.getAllImages = async (req, res, next) => {
 
 exports.uploadImage = upload.single("photo");
 
+exports.resizeImage = async (req, res, next) => {
+  if (!req.filteredOut) {
+    const uploadedFilePath = req.file.path;
+    const tmpFilePath = `${req.file.destination}/resized_tmp`;
+
+    await sharp(uploadedFilePath)
+      .resize(RESIZE_WIDTH, RESIZE_HEIGHT)
+      .toFile(tmpFilePath);
+
+    fs.unlinkSync(uploadedFilePath);
+    fs.renameSync(tmpFilePath, uploadedFilePath);
+  }
+
+  next();
+};
+
 exports.createImageMetadata = async (req, res, next) => {
-  
   let doc;
-  if(!req.filteredOut){
+  if (!req.filteredOut) {
     doc = await ImageMetadata.create({
       name: req.body.name,
       path: `/img/${req.file.filename}`,

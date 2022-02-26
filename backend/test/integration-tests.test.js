@@ -1,13 +1,20 @@
 const fs = require("fs");
 const mongoose = require("mongoose");
+const sizeOf = require("image-size");
+
 const supertest = require("supertest");
 const app = require("../app");
 const dropAllCollections = require("./utils/dropAllCollections");
 
 const request = supertest(app);
 
-const testImageName = "Test";
-const expectedFilePath = "/img/Test.jpeg";
+const testImageName = "TestName";
+const expectedFilePath = "/img/TestName.jpeg";
+
+const jpgPath = "test/utils/test.jpg";
+const jpegPath = "test/utils/test.jpeg";
+const pngPath = "test/utils/test.png";
+const gifPath = "test/utils/test.gif";
 
 // Connects to test database
 beforeAll(async () => {
@@ -33,9 +40,9 @@ test("Return 404 for invalid endpoint", async (done) => {
 });
 
 test("POST /images - upload image", async (done) => {
-  const response = await postImagePromise("test/utils/test.jpeg")
+  const response = await postImagePromise(jpegPath);
 
-  const fileExists = checkPublicFileExists(expectedFilePath)
+  const fileExists = checkPublicFileExists(expectedFilePath);
 
   removePublicFile(expectedFilePath);
 
@@ -60,7 +67,7 @@ test("GET /images - returns array of metadata for uploaded images", async (done)
 
 const checkPublicFileExists = (filePath) => {
   return fs.existsSync(`public${filePath}`);
-}
+};
 
 const removePublicFile = (filePath) => {
   const fileExists = checkPublicFileExists(filePath);
@@ -79,22 +86,17 @@ const postImagePromise = (filePath) => {
 };
 
 test("POST /images - upload different file extensions", async (done) => {
-  const jpgPath = "test/utils/test.jpg";
-  const jpegPath = "test/utils/test.jpeg";
-  const pngPath = "test/utils/test.png";
-  const gifPath = "test/utils/test.gif";
-
   let response = await postImagePromise(jpgPath);
   expect(response.status).toBe(201);
-  removePublicFile(response.body.data.path);
+  removePublicFile(response.body.data.data.path);
 
   response = await postImagePromise(jpegPath);
   expect(response.status).toBe(201);
-  removePublicFile(response.body.data.path);
+  removePublicFile(response.body.data.data.path);
 
   response = await postImagePromise(pngPath);
   expect(response.status).toBe(201);
-  removePublicFile(response.body.data.path);
+  removePublicFile(response.body.data.data.path);
 
   response = await postImagePromise(gifPath);
   expect(response.status).toBe(400);
@@ -102,3 +104,15 @@ test("POST /images - upload different file extensions", async (done) => {
   done();
 });
 
+test("POST /images - check image was resized", async (done) => {
+  const EXPECTED_WIDTH = 400;
+  const EXPECTED_HEIGHT = 400;
+
+  const response = await postImagePromise(jpegPath);
+  const dimensions = sizeOf(`public${expectedFilePath}`);
+  expect(dimensions.width).toBe(EXPECTED_WIDTH);
+  expect(dimensions.height).toBe(EXPECTED_HEIGHT);
+  removePublicFile(response.body.data.data.path);
+
+  done();
+});
