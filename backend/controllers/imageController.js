@@ -13,8 +13,17 @@ const multerStorage = multer.diskStorage({
   },
 });
 
+function multerFilter (req, file, cb) {
+  const acceptFile = ["image/jpeg", "image/png"].includes(file.mimetype)
+  if(!acceptFile){
+    req.filteredOut = true;
+  }
+  cb(null, acceptFile)
+}
+
 const upload = multer({
   storage: multerStorage,
+  fileFilter: multerFilter
 });
 
 exports.getAllImages = async (req, res, next) => {
@@ -29,10 +38,14 @@ exports.getAllImages = async (req, res, next) => {
 exports.uploadImage = upload.single("photo");
 
 exports.createImageMetadata = async (req, res, next) => {
-  const doc = await ImageMetadata.create({
-    name: req.body.name,
-    path: `/img/${req.file.filename}`,
-  });
+  
+  let doc;
+  if(!req.filteredOut){
+    doc = await ImageMetadata.create({
+      name: req.body.name,
+      path: `/img/${req.file.filename}`,
+    });
+  }
 
   if (!doc) {
     return res.status(400).json({

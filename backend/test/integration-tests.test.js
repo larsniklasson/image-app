@@ -33,19 +33,11 @@ test("Return 404 for invalid endpoint", async (done) => {
 });
 
 test("POST /images - upload image", async (done) => {
-  const response = await request
-    .post("/images")
-    .field("name", testImageName)
-    .attach("photo", "test/utils/test.jpeg");
+  const response = await postImagePromise("test/utils/test.jpeg")
 
-  const fileExists = fs.existsSync(`public${expectedFilePath}`);
+  const fileExists = checkPublicFileExists(expectedFilePath)
 
-  // Clean up by removing file again
-  if (fileExists) {
-    fs.unlink(`public${expectedFilePath}`, (err) => {
-      if (err) throw err;
-    });
-  }
+  removePublicFile(expectedFilePath);
 
   expect(response.status).toBe(201);
   expect(response.body.data.data.name).toBe(testImageName);
@@ -65,3 +57,48 @@ test("GET /images - returns array of metadata for uploaded images", async (done)
 
   done();
 });
+
+const checkPublicFileExists = (filePath) => {
+  return fs.existsSync(`public${filePath}`);
+}
+
+const removePublicFile = (filePath) => {
+  const fileExists = checkPublicFileExists(filePath);
+  if (fileExists) {
+    fs.unlink(`public${filePath}`, (err) => {
+      if (err) throw err;
+    });
+  }
+};
+
+const postImagePromise = (filePath) => {
+  return request
+    .post("/images")
+    .field("name", testImageName)
+    .attach("photo", filePath);
+};
+
+test("POST /images - upload different file extensions", async (done) => {
+  const jpgPath = "test/utils/test.jpg";
+  const jpegPath = "test/utils/test.jpeg";
+  const pngPath = "test/utils/test.png";
+  const gifPath = "test/utils/test.gif";
+
+  let response = await postImagePromise(jpgPath);
+  expect(response.status).toBe(201);
+  removePublicFile(response.body.data.path);
+
+  response = await postImagePromise(jpegPath);
+  expect(response.status).toBe(201);
+  removePublicFile(response.body.data.path);
+
+  response = await postImagePromise(pngPath);
+  expect(response.status).toBe(201);
+  removePublicFile(response.body.data.path);
+
+  response = await postImagePromise(gifPath);
+  expect(response.status).toBe(400);
+
+  done();
+});
+
